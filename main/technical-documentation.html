@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting started with Web API</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<header>
+  <div class="header">
+    <div class="logo">Spotify for Developers</div>
+  </div>
+
+  <div class="sidebar">
+    <nav id="navbar">
+      <header>Getting started with Web API</header>
+      <ul>
+        <li><a class="nav-link" href="#Introduction">Introduction</a></li>
+        <li><a class="nav-link" href="#Prerequisites">Prerequisites</a></li>
+        <li><a class="nav-link" href="#Set_Up_Your_Account">Set Up Your Account</a></li>
+        <li><a class="nav-link" href="#Create_an_app">Create an app</a></li>
+        <li><a class="nav-link" href="#Request_an_access_token">Request an access token</a></li>
+        <li><a class="nav-link" href="#Summary">Summary</a></li>
+        <li><a class="nav-link" href="#What's_next?">What's next?</a></li>
+        <li><a class="nav-link" href="#Reference">Reference</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-doc">
+  <section class="main-section" id="Introduction">
+    <header>Introduction</header>
+    <p>This tutorial will help you to make your first Web API call by
+      retriving an artist&#x27;s metadata. The steps to do so are the following:</p>
+    <ol>
+      <li><a href="#Create_an_app">Create an app</a>, if you haven&#x27;t done so.</li>
+      <li ><a href="#Request_an_access_token">Request an access token</a>.</li>
+      <li>Use the access token to <a href="#Request_artist_data">request the artist data</a>.</li>
+    </ol>
+  </section>
+
+  <section class="main-section" id="Prerequisites">
+    <header>Prerequisites</header>
+    <ul>
+      <li>This tutorial assumes you have a Spotify account (free or premium).</li>
+      <li>We will use <code>cURL</code> to make API calls. You can install it from
+        <a href="https://curl.se/download.html">here</a> our using the package manager of your choice.</li>
+    </ul>
+  </section>
+
+  <section class="main-section" id="Set_Up_Your_Account">
+    <header>Set Up Your Account</header>
+    <p>Login to the <a href="https://developer.spotify.com/dashboard">Spotify Developer Dashboard</a>. If necessary, read the latest <a href="https://developer.spotify.com/terms">Developer Terms of Service</a> to complete your account set up.</p>
+  </section>
+
+  <section class="main-section" id="Create_an_app">
+    <header>Create an app</header>
+    <p>An app provides the <em>Client ID</em> and <em>Client Secret</em> needed to request an <em>access token</em> by implementing any of the <a href="/https://developer.spotify.com/documentation/web-api/concepts/authorization">authorization</a> flows.</p>
+    <p>To create an app, go to <a href="https://developer.spotify.com/dashboard">your Dashboard</a>, click on the <em>Create an app</em> button and enter the following information:</p>
+    <ul>
+      <li>App Name: <em>My App</em></li>
+      <li>App Description: <em>This is my first Spotify app</em></li>
+      <li>Redirect URI: You won&#x27;t need this parameter in this example, so let&#x27;s use <code>http://localhost:3000</code></li>
+    </ul>
+    <p>Finally, check the <em>Developer Terms of Service</em> checkbox and tap on the
+      <em>Create</em> button.</p>
+  </section>
+
+  <section class="main-section" id="Request_an_access_token">
+    <header>Request an access token</header>
+    <p>The <em>access token</em> is a string which contains the credentials and permissions that can be used to access a given resource (e.g artists, albums or tracks) or user's data (e.g your profile or your playlists).</p>
+    <p>In order to request the <em>access token</em> you need to get your <em>Client_ID</em> and <em>Client Secret</em>:</p>
+    <ol>
+      <li>Go to the <a href="https://developer.spotify.com/dashboard">Dashboard</a></li>
+      <li>Click on the name of the app you have just created (<code>My App</code>)</li>
+      <li>Click on the <em>Settings</em> button</li>
+    </ol>
+    <p>The <em>Client ID</em> can be found here. The <em>Client Secret</em> can be found behind the <em>View client secret</em> link.</p>
+    <p>With our credentials in hand, we are ready to request an access token. This tutorial uses the <a href="https://developer.spotify.com/documentation/web-api/tutorials/client-credentials-flow">Client
+      Credentials</a>, so we must:</p>
+    <ul>
+      <li>Send a <span>POST request</span> to the token endpoint URI.</li>
+      <li>Add the <span><code>Content-Type</code> header</span> set to the <code>application/x-www-form-urlencoded</code> value.</li>
+      <li>a HTTP body</span> containing the <em>Client ID</em> and <em>Client Secret</em>, along with the <code>grant_type</code> parameter set to <code>client_credentials</code>.</li>
+    </ul>
+    <pre><code class="code1"><span>curl -X POST &quot;https://accounts.spotify.com/api/token&quot; \</span>
+        <span>     -H &quot;Content-Type: application/x-www-form-urlencoded&quot; \</span>
+        <span>     -d &quot;grant_type=client_credentials&amp;client_id=your-client-id&amp;client_secret=your-client-secret&quot;</span></code></pre>
+    <p>The response will return an <em>access token</em> valid for 1 hour:</p>
+    <pre><code class="code1"><span>&quot;access_token&quot;: &quot;BQDBKJ5eo5jxbtpWjVOj7ryS84khybFpP_lTqzV7uV-T_m0cTfwvdn5BnBSKPxKgEb11&quot;,</span></br><span>  &quot;token_type&quot;: &quot;Bearer&quot;,</span></br><span>  &quot;expires_in&quot;: 3600</span></code></pre>
+  </section>
+
+  <section class="main-section" id="Summary">
+    <header>Summary</header>
+    <p>The Spotify Web API provides different endpoints depending on the data we want to access. The API calls must include the <code>Authorization</code> header along with a valid access token.</p>
+    <div></div>
+    <p>This tutorial makes use of the <a href="https://developer.spotify.com/documentation/web-api/tutorials client-credentials-flow">client credentials</a> grant
+      type to retrieve the access token. That works fine in scenarios where you
+      control the API call to Spotify, for example where your backend is connecting to the Web API. It will not work in cases where your app will connect on behalf of a specific user, for example when getting private playlist or profile data.</p>
+  </section>
+
+  <section class="main-section" id="What's_next?">
+    <header>What's next?</header>
+    <ul>
+      <li>
+        <p>The tutorial used the Spotify Desktop App to retrieve the Spotify ID of the artist. The ID can also be retrieved using the <a href="https://developer.spotify.com/documentation/web-api/reference/search">Search endpoint</a>. An interesting exercise would be to extend the example with a new API call to the <code>/search</code> endpoint. Do you accept the challenge?</p> </li>
+      <li>
+        <p>The <a href="https://developer.spotify.com/documentation/web-api/concepts/authorization">authorization</a> guide provides detailed information about which authorization flow suits you best. Make sure you read it first!</p></li>
+      <li>
+        <p>You can continue your journey by reading the <a href="https://developer.spotify.com/documentation/web-api/concepts/api-calls">API calls</a> guide which describes in detail the Web API request and responses.</p></li>
+      <li>
+        <p>Finally, if you are looking for a more practical documentation, you can follow the <a href="https://developer.spotify.com/documentation/web-api/howtos/web-app-profile">Display your Spotify Profile Data in a Web App</a> how-to which implements a step-by-step web application using <a href="https://developer.spotify.com/documentation/web-api/tutorials/code-flow">authorization code flow</a> to request the <em>access token</em>.</p></li>
+    </ul>
+  </section>
+
+  <section class="main-section" id="Reference">
+    <header>Reference</header>
+    <p>All documentation from this page is taken from <a href="https://developer.spotify.com/documentation/web-api/tutorials/getting-started">Getting started with Web API</a> from <a href="https://developer.spotify.com/">Spotify for Developers.</a>
+  </section>
+</main>
+</body>
+</html>
